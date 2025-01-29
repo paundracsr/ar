@@ -17,8 +17,16 @@
         <!-- Marker dengan gambar QR Code -->
         <a-marker type="pattern" url="earth.patt">
             <!-- Model 3D Earth -->
-            <a-entity gltf-model="url(earth.glb)" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
+            <a-entity gltf-model="url(earth.glb)" scale="2.5 2.5 2.5" position="0 0 0"></a-entity>
         </a-marker>
+
+        <!-- Kontroler untuk perangkat HP -->
+        <a-entity id="touch-controller" 
+                  raycaster="objects: .clickable" 
+                  cursor="fuse: true; maxDistance: 10; fuseTimeout: 500" 
+                  position="0 0 0">
+        </a-entity>
+
         <a-entity camera></a-entity>
     </a-scene>
 </body>
