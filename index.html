@@ -19,7 +19,7 @@
         <a-marker type="pattern" url="earth.patt">
             <!-- Model 3D Earth lebih besar dan lebih dekat -->
             <a-entity id="earth-model" gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 -2"
-                      gesture-detector rotation="0 0 0">
+                      gesture-detector>
             </a-entity>
         </a-marker>
 
@@ -28,7 +28,7 @@
     </a-scene>
 
     <script>
-        // Menambahkan kontroler rotasi dan zoom pada objek
+        // Menambahkan kontroler zoom pada objek
         AFRAME.registerComponent('gesture-detector', {
             init: function () {
                 this.el.addEventListener('touchstart', this.onTouchStart.bind(this));
@@ -36,22 +36,19 @@
             },
 
             onTouchStart: function (event) {
-                this.initialTouches = event.touches;
-                this.initialRotation = this.el.getAttribute('rotation');
+                if (event.touches.length === 2) {
+                    this.initialTouches = event.touches;
+                    this.initialScale = this.el.getAttribute('scale');
+                }
             },
 
             onTouchMove: function (event) {
-                if (event.touches.length === 1) {
-                    // Rotasi satu jari
-                    let deltaRotation = event.touches[0].clientX - this.initialTouches[0].clientX;
-                    let newRotation = this.initialRotation.y + deltaRotation * 0.2; // Adjust sensitivity
-                    this.el.setAttribute('rotation', { x: 0, y: newRotation, z: 0 });
-                } else if (event.touches.length === 2) {
+                if (event.touches.length === 2) {
                     // Zoom dengan dua jari
                     let initialDistance = this.getDistance(this.initialTouches);
                     let currentDistance = this.getDistance(event.touches);
                     let scaleChange = currentDistance / initialDistance;
-                    let currentScale = this.el.getAttribute('scale');
+                    let currentScale = this.initialScale;
                     let newScale = currentScale.x * scaleChange;
                     this.el.setAttribute('scale', { x: newScale, y: newScale, z: newScale });
                 }
@@ -66,4 +63,3 @@
     </script>
 </body>
 </html>
-
