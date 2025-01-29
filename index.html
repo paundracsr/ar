@@ -17,8 +17,8 @@
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best;">
         <!-- Marker dengan gambar QR Code -->
         <a-marker type="pattern" url="earth.patt">
-            <!-- Model 3D Earth -->
-            <a-entity id="earth-model" gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 0" 
+            <!-- Model 3D Earth lebih besar dan lebih dekat -->
+            <a-entity id="earth-model" gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 -2" 
                       gesture-detector>
             </a-entity>
         </a-marker>
