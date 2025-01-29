@@ -6,6 +6,7 @@
     <title>3D Earth AR</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.2.0/aframe.min.js"></script>
     <script src="https://rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-gesture-detector@2.0.0/dist/aframe-gesture-detector.min.js"></script>
     <style>
         body { margin: 0; overflow: hidden; touch-action: none; }
         canvas { display: block; }
@@ -17,14 +18,17 @@
         <!-- Marker dengan gambar QR Code -->
         <a-marker type="pattern" url="earth.patt">
             <!-- Model 3D Earth -->
-            <a-entity gltf-model="url(earth.glb)" scale="2.5 2.5 2.5" position="0 0 0"></a-entity>
+            <a-entity id="earth-model" gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 0" 
+                      gesture-detector>
+            </a-entity>
         </a-marker>
 
-        <!-- Kontroler untuk perangkat HP -->
+        <!-- Kontroler untuk perangkat HP (rotate dan zoom) -->
         <a-entity id="touch-controller" 
                   raycaster="objects: .clickable" 
                   cursor="fuse: true; maxDistance: 10; fuseTimeout: 500" 
-                  position="0 0 0">
+                  position="0 0 0"
+                  gesture-detector>
         </a-entity>
 
         <a-entity camera></a-entity>
