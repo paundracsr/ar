@@ -6,7 +6,6 @@
     <title>3D Earth AR</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.2.0/aframe.min.js"></script>
     <script src="https://rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-gesture-detector@2.0.0/dist/aframe-gesture-detector.min.js"></script>
     <style>
         body { margin: 0; overflow: hidden; touch-action: none; }
         canvas { display: block; }
@@ -26,51 +25,15 @@
     </script>
     
     <!-- Scene with AR.js -->
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; detectionMode: mono_and_matrix; matrixCodeType: 4x4;">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: true; trackingMethod: best; detectionMode: mono_and_matrix; matrixCodeType: 4x4;">
         <!-- Marker dengan gambar QR Code -->
         <a-marker type="pattern" url="earth.patt" smooth="true" smoothCount="10" smoothTolerance="0.05" smoothThreshold="5">
-            <!-- Model 3D Earth lebih besar dan lebih dekat -->
-            <a-entity id="earth-model" gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 -1.5" gesture-detector>
-            </a-entity>
+            <!-- Model 3D Earth -->
+            <a-entity id="earth-model" gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 -1.5"></a-entity>
         </a-marker>
 
         <!-- Kamera untuk AR -->
         <a-entity camera></a-entity>
     </a-scene>
-
-    <script>
-        // Menambahkan kontroler zoom pada objek
-        AFRAME.registerComponent('gesture-detector', {
-            init: function () {
-                this.el.addEventListener('touchstart', this.onTouchStart.bind(this));
-                this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
-            },
-
-            onTouchStart: function (event) {
-                if (event.touches.length === 2) {
-                    this.initialTouches = event.touches;
-                    this.initialScale = this.el.getAttribute('scale');
-                }
-            },
-
-            onTouchMove: function (event) {
-                if (event.touches.length === 2) {
-                    // Zoom dengan dua jari
-                    let initialDistance = this.getDistance(this.initialTouches);
-                    let currentDistance = this.getDistance(event.touches);
-                    let scaleChange = currentDistance / initialDistance;
-                    let currentScale = this.initialScale;
-                    let newScale = Math.max(5, Math.min(currentScale.x * scaleChange, 10));
-                    this.el.setAttribute('scale', { x: newScale, y: newScale, z: newScale });
-                }
-            },
-
-            getDistance: function (touches) {
-                let dx = touches[1].clientX - touches[0].clientX;
-                let dy = touches[1].clientY - touches[0].clientY;
-                return Math.sqrt(dx * dx + dy * dy);
-            }
-        });
-    </script>
 </body>
 </html>
