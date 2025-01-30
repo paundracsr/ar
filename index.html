@@ -1,59 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>3D Earth AR</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
-    <style>
-        body { margin: 0; overflow: hidden; touch-action: none; }
-        canvas { display: block; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR with Pattern and Three.js</title>
+  <!-- Include A-Frame and AR.js -->
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
-<body>
-    <script>
-        // Meminta izin kamera untuk iOS dan Android
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (stream) {
-                console.log("Akses kamera berhasil");
-                // Menampilkan stream video untuk memastikan kamera aktif
-                const videoElement = document.createElement('video');
-                videoElement.srcObject = stream;
-                document.body.appendChild(videoElement);
-                videoElement.play();
-            })
-            .catch(function (error) {
-                console.error("Akses kamera gagal", error);
-                alert("Harap izinkan akses kamera untuk menggunakan AR.");
-            });
-    </script>
+<body style="margin: 0; overflow: hidden;">
+  <a-scene embedded arjs>
+    <!-- Custom marker with earth.patt -->
+    <a-marker preset="custom" type="pattern" url="earth.patt">
+      <!-- Load the 3D model (earth.glb) on the marker -->
+      <a-entity gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 0" rotation="0 0 0"></a-entity>
+    </a-marker>
     
-    <!-- Scene with AR.js -->
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: true; trackingMethod: best; detectionMode: mono_and_matrix; matrixCodeType: 4x4;">
-        <!-- Marker dengan gambar QR Code atau pola -->
-        <a-marker type="pattern" url="earth.patt">
-            <!-- Model 3D Earth -->
-            <a-entity id="earth-model" gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 -1.5"></a-entity>
-        </a-marker>
-
-        <!-- Kamera untuk AR -->
-        <a-entity camera></a-entity>
-    </a-scene>
-
-    <script>
-        // Fungsi tambahan debugging untuk memastikan marker terdeteksi
-        document.querySelector('a-scene').addEventListener('loaded', function () {
-            const scene = document.querySelector('a-scene');
-            const arjsContext = scene.systems['arjs'];
-            console.log('AR.js Context Loaded:', arjsContext);
-            arjsContext.addEventListener('markerFound', function (event) {
-                console.log('Marker ditemukan: ', event.detail.marker);
-            });
-            arjsContext.addEventListener('markerLost', function (event) {
-                console.log('Marker hilang: ', event.detail.marker);
-            });
-        });
-    </script>
+    <!-- Camera setup -->
+    <a-entity camera></a-entity>
+  </a-scene>
 </body>
 </html>
