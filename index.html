@@ -13,6 +13,18 @@
     </style>
 </head>
 <body>
+    <script>
+        // Meminta izin kamera untuk iOS dan Android
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                console.log("Akses kamera diberikan");
+            })
+            .catch(function (error) {
+                console.error("Akses kamera ditolak", error);
+                alert("Harap izinkan akses kamera untuk menggunakan AR.");
+            });
+    </script>
+    
     <!-- Scene with AR.js -->
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; detectionMode: mono_and_matrix; matrixCodeType: 4x4;">
         <!-- Marker dengan gambar QR Code -->
