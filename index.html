@@ -1,46 +1,17 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR.js Bumi</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://unpkg.com/aframe-extras@6.1.1/dist/aframe-extras.loaders.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
-    <script>
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => console.log("Kamera diizinkan"))
-            .catch(err => alert("Harap izinkan akses kamera untuk menggunakan AR"));
-    </script>
     <a-scene embedded arjs>
+        <!-- Kamera AR -->
         <a-marker type="pattern" url="Bumi.patt">
-            <a-entity id="model" gltf-model="BUMifix.glb" position="0 0 0" scale="0.5 0.5 0.5" rotation="0 0 0"
-                      event-set__loaded="_event: model-loaded; visible: true"></a-entity>
+            <!-- Model 3D (BUMifix.glb) -->
+            <a-entity gltf-model="BUMifix.glb" scale="1 1 1" position="0 0 0"></a-entity>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
-    
-    <input type="range" id="scaleSlider" min="0.1" max="2" step="0.1" value="0.5" 
-           style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10;">
-    <input type="range" id="rotationSlider" min="0" max="360" step="1" value="0" 
-           style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 10;">
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var model = document.getElementById("model");
-            
-            document.getElementById("scaleSlider").addEventListener("input", function(event) {
-                var scaleValue = event.target.value;
-                model.setAttribute("scale", `${scaleValue} ${scaleValue} ${scaleValue}`);
-            });
-            
-            document.getElementById("rotationSlider").addEventListener("input", function(event) {
-                var rotationValue = event.target.value;
-                model.setAttribute("rotation", `0 ${rotationValue} 0`);
-            });
-        });
-    </script>
 </body>
 </html>
