@@ -1,23 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR with Pattern and Three.js</title>
-  <!-- Include A-Frame and AR.js -->
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR.js Bumi</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@6.1.1/dist/aframe-extras.loaders.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
-  <a-scene embedded arjs>
-    <!-- Custom marker with earth.patt -->
-    <a-marker preset="custom" type="pattern" url="earth.patt">
-      <!-- Load the 3D model (earth.glb) on the marker -->
-      <a-entity gltf-model="url(earth.glb)" scale="7.5 7.5 7.5" position="0 0 0" rotation="0 0 0"></a-entity>
-    </a-marker>
+    <script>
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => console.log("Kamera diizinkan"))
+            .catch(err => alert("Harap izinkan akses kamera untuk menggunakan AR"));
+    </script>
+    <a-scene embedded arjs>
+        <a-marker type="pattern" url="Bumi.patt">
+            <a-entity id="model" gltf-model="BUMifix.glb" position="0 0 0" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
     
-    <!-- Camera setup -->
-    <a-entity camera></a-entity>
-  </a-scene>
+    <input type="range" id="scaleSlider" min="0.1" max="2" step="0.1" value="0.5" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10;">
+    <input type="range" id="rotationSlider" min="0" max="360" step="1" value="0" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 10;">
+    
+    <script>
+        document.getElementById("scaleSlider").addEventListener("input", function(event) {
+            var scaleValue = event.target.value;
+            document.getElementById("model").setAttribute("scale", scaleValue + " " + scaleValue + " " + scaleValue);
+        });
+        
+        document.getElementById("rotationSlider").addEventListener("input", function(event) {
+            var rotationValue = event.target.value;
+            document.getElementById("model").setAttribute("rotation", "0 " + rotationValue + " 0");
+        });
+    </script>
 </body>
 </html>
